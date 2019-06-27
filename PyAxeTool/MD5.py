@@ -33,7 +33,7 @@ def main(args):
     elif args.SubCommand == 'MD5OfDir':
         MD5OfDir(args.DirPath)
     elif args.SubCommand == 'MD5OfStr':
-        MD5OfDir(args.Str)
+        MD5OfStr(args.Str)
     else:
         return False
     return True
