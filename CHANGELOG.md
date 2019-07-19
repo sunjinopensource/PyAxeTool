@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.3
+
++PyInstaller
+
 ## 0.0.2
 
 fix MD5OfStr

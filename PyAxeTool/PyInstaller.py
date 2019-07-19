@@ -1,8 +1,20 @@
-import os, time
+import os, argparse#, textwrap
 from PyAxe import ALog, AOS, APyInstaller, ACompress, AUtil
 
+DESCRIPTION = """\
+【注意】
+1. 执行前，需关闭杀软，否则可能失败
+2. 此外，Windows上的explorer.exe有时也可能造成失败（概率较低）
+
+【spec.py】
+若当前目录下存在 目标.spec.py，则该目标支持特殊的打包方式。
+spec.py的内容，主要应包含设置APyInstaller.ExtraOptions的代码，比如：
+extraOptions.datas=[('a.txt', 'res.dir')]
+"""
+
 def initArgs(subparsers):
-    subparser = subparsers.add_parser('PyInstaller', help='制作可执行文件')
+
+    subparser = subparsers.add_parser('PyInstaller', help='制作可执行文件', description=DESCRIPTION, formatter_class=argparse.RawDescriptionHelpFormatter)
     subparser.add_argument('Targets', nargs='+', help='目标列表')
     subparser.add_argument('--OneFile', action='store_true', help='单文件形式（默认为文件夹形式）')
     subparser.add_argument('--Pack', choices=['none', 'zip', 'tar'], help='打包方式（默认为tar）')
@@ -50,10 +62,14 @@ def makePackageFromDist(target, args):
 
 
 def makeTarget(target, args):
+    extraOptions = APyInstaller.ExtraOptions()
+    specFile = target+'.spec.py'
+    if os.path.exists(specFile):
+        with open(specFile) as fp:
+            exec(fp.read(), {}, {'extraOptions':extraOptions})
     with AOS.ChangeDir('..'):
         AOS.removeDir('build')
         AOS.removeDir('dist')
-        extraOptions = APyInstaller.ExtraOptions()
         APyInstaller.execCommand(target+'.py', target, oneFile=args.OneFile, extraOptions=extraOptions)
         makePackageFromDist(target, args)
         AOS.removeDir('build')
@@ -62,7 +78,6 @@ def makeTarget(target, args):
 
 def main(args):
     if args.SubCommand == 'PyInstaller':
-        # 执行前，请关闭杀软，否则可能失败
         ALog.enableFileSink(False)
         finalTargets = getTargetsFromInput(args)
         for target in finalTargets:
