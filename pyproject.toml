@@ -11,6 +11,9 @@ authors = [
 description = "An utility tool collection for make life easily"
 readme = "README.md"
 requires-python = ">=3.6"
+dependencies = [
+  "PyAxe >= 1.0.31',
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
