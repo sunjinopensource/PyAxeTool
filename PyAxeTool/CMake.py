@@ -92,7 +92,7 @@ int Sum(int a, int b) {
 #include "gtest/gtest.h"
 
 TEST(test_$(fuba), Sum) {
-  EXPECT_TRUE(Sum(1, 2) == 3);
+  EXPECT_TRUE(foo::Sum(1, 2) == 3);
 }
 """
     if args.libname is None:
