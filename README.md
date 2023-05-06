@@ -19,5 +19,5 @@ python3 -m PyAxeTool.MD5 dir testdir
 python3 -m PyAxeTool.MD5 str abc
 
 # 通过lib模板创建CMake工程
-python3 -m PyAxeTool.CMake archetype:generate lib
+python3 -m PyAxeTool.CMake archetype:generate lib --libname=zoo
 ```
