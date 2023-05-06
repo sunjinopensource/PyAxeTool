@@ -73,15 +73,19 @@ endmacro(AddTest)
 """
     lib_h = """#pragma once
 namespace $(fuba) {
+    
 int Sum(int a, int b);
+
 }  // namespace $(fuba)
 """
-    lib_cc = """#include <iostream>
+    lib_cc = """#include "benchmark/benchmark.h"
 
 namespace $(fuba) {
+    
 int Sum(int a, int b) {
   return a + b;
 }
+
 }  // namespace $(fuba)
 """
 
