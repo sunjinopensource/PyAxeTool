@@ -17,4 +17,7 @@ python3 -m PyAxeTool.MD5 dir testdir
 
 # 显示字符串的MD5
 python3 -m PyAxeTool.MD5 str abc
+
+# 通过lib模板创建CMake工程
+python3 -m PyAxeTool.CMake archetype:generate lib
 ```
