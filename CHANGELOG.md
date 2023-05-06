@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+
+use twine for releasing
+
 ## 0.0.3
 
 +PyInstaller
