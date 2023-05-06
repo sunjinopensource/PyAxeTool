@@ -72,6 +72,27 @@ macro(AddTest name depend_libs)
   add_test(NAME ${name} COMMAND ${name})
 endmacro(AddTest)
 """
+    lib_h = """#pragma once
+
+int Test();
+"""
+    lib_cc = """#include <iostream>
+
+int Test() {
+  std::cout << "Test()" << std::endl;
+}
+"""
+
+    test_cc = """#include "$(fuba)/$(fuba).h"
+
+#include <iostream>
+
+#include "gtest/gtest.h"
+
+TEST() {
+  EXPECT_EQ(Test(), 1);
+}
+"""
     if args.libname is None:
         print('missing --libname=<LIBNAME>')
         sys.exit(1)
@@ -80,15 +101,21 @@ endmacro(AddTest)
     fu_ba_map = AStr.getFuBaMap(args.libname, '')
     AOS.makeDir(fu_ba_map['fuba'])
     with AOS.ChangeDir(fu_ba_map['fuba']):
-        AOS.makeDir('include')
+        AOS.makeDir(os.path.join('include', fu_ba_map['fuba']))
         AOS.makeDir('src')
         AOS.makeDir('test')
         AOS.makeDir('cmake')
 
+        # CMakeLists相关
         AFile.write('CMakeLists.txt', AStr.format(root_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
         AFile.write(os.path.join('src', 'CMakeLists.txt'), AStr.format(src_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
         AFile.write(os.path.join('test', 'CMakeLists.txt'), AStr.format(test_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
         AFile.write(os.path.join('cmake', 'CMakeUtil.cmake'), cmake_CMakeUtil, 'utf8')
+        
+        # 源码相关
+        AFile.write(os.path.join('include', fu_ba_map['fuba'], fu_ba_map['fuba']+'.h'), lib_h, 'utf8')
+        AFile.write(os.path.join('src', fu_ba_map['fuba']+'.cc'), lib_cc, 'utf8')
+        AFile.write(os.path.join('test', 'test.cc'), AStr.format(test_cc, '$(', ')', **fu_ba_map), 'utf8')
     
 def handle_sub_cmd_archetype_generate(args):
     funcs = {
