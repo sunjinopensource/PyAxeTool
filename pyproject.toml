@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "PyAxeTool"
-version = "1.0.0"
+version = "1.1.0"
 authors = [
   { name="Sun Jin", email="412640665@qq.com" },
 ]
@@ -12,7 +12,7 @@ description = "An utility tool collection for make life easily"
 readme = "README.md"
 requires-python = ">=3.6"
 dependencies = [
-  "PyAxe >= 1.0.32',
+  "PyAxe>=1.0.32",
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
