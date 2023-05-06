@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+refact MD5
+
 ## 0.0.4
 
 use twine for releasing
