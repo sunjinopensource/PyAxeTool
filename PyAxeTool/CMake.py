@@ -34,8 +34,7 @@ install(TARGETS $(fuba)
   LIBRARY DESTINATION lib)
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 """
-    test_CMakeLists_content = """
-SetupGTest()
+    test_CMakeLists_content = """SetupGTest()
 
 AddTest(test_$(fuba) $(fuba))
 """
@@ -72,6 +71,7 @@ macro(AddTest name depend_libs)
 endmacro(AddTest)
 """
     lib_h = """#pragma once
+
 namespace $(fuba) {
     
 int Sum(int a, int b);
