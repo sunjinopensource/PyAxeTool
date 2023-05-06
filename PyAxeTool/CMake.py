@@ -85,9 +85,9 @@ endmacro(AddTest)
         AOS.makeDir('test')
         AOS.makeDir('cmake')
 
-        AFile.write('CMakeLists.txt', AStr.format(root_CMakeLists_content, '$(', ')', fu_ba_map), 'utf8')
-        AFile.write(os.path.join('src', 'CMakeLists.txt'), AStr.format(src_CMakeLists_content, '$(', ')', fu_ba_map), 'utf8')
-        AFile.write(os.path.join('test', 'CMakeLists.txt'), AStr.format(test_CMakeLists_content, '$(', ')', fu_ba_map), 'utf8')
+        AFile.write('CMakeLists.txt', AStr.format(root_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('src', 'CMakeLists.txt'), AStr.format(src_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('test', 'CMakeLists.txt'), AStr.format(test_CMakeLists_content, '$(', ')', **fu_ba_map), 'utf8')
         AFile.write(os.path.join('cmake', 'CMakeUtil.cmake'), cmake_CMakeUtil, 'utf8')
     
 def handle_sub_cmd_archetype_generate(args):
