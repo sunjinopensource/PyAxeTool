@@ -22,8 +22,7 @@ if ($(FUBA)_ENABLE_TESTING)
   add_subdirectory(test)
 endif()
 """
-    src_CMakeLists_content = """
-file(GLOB SOURCE_FILES
+    src_CMakeLists_content = """file(GLOB SOURCE_FILES
   *.cc
   ${CMAKE_SOURCE_DIR}/include/$(fuba)/*.h
   ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
@@ -37,10 +36,10 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 """
     test_CMakeLists_content = """
 SetupGTest()
-#AddTest(name extra_libs)
+
+AddTest(test_$(fuba) $(fuba))
 """
-    cmake_CMakeUtil = """
-#================================================================
+    cmake_CMakeUtil = """#================================================================
 # 安装gtest 
 #================================================================
 macro(SetupGTest)
@@ -73,24 +72,27 @@ macro(AddTest name depend_libs)
 endmacro(AddTest)
 """
     lib_h = """#pragma once
-
-int Test();
+namespace $(fuba) {
+int Sum(int a, int b);
+}  // namespace $(fuba)
 """
     lib_cc = """#include <iostream>
 
-int Test() {
-  std::cout << "Test()" << std::endl;
+namespace $(fuba) {
+int Sum(int a, int b) {
+  return a + b;
 }
+}  // namespace $(fuba)
 """
 
-    test_cc = """#include "$(fuba)/$(fuba).h"
+    test_lib_cc = """#include "$(fuba)/$(fuba).h"
 
 #include <iostream>
 
 #include "gtest/gtest.h"
 
-TEST() {
-  EXPECT_EQ(Test(), 1);
+TEST(test_$(fuba), Sum) {
+  EXPECT_TRUE(Sum(1, 2) == 3);
 }
 """
     if args.libname is None:
@@ -113,9 +115,9 @@ TEST() {
         AFile.write(os.path.join('cmake', 'CMakeUtil.cmake'), cmake_CMakeUtil, 'utf8')
         
         # 源码相关
-        AFile.write(os.path.join('include', fu_ba_map['fuba'], fu_ba_map['fuba']+'.h'), lib_h, 'utf8')
-        AFile.write(os.path.join('src', fu_ba_map['fuba']+'.cc'), lib_cc, 'utf8')
-        AFile.write(os.path.join('test', 'test.cc'), AStr.format(test_cc, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('include', fu_ba_map['fuba'], fu_ba_map['fuba']+'.h'), AStr.format(lib_h, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('src', fu_ba_map['fuba']+'.cc'), AStr.format(lib_cc, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('test', 'test_'+fu_ba_map['fuba']+'.cc'), AStr.format(test_lib_cc, '$(', ')', **fu_ba_map), 'utf8')
     
 def handle_sub_cmd_archetype_generate(args):
     funcs = {
