@@ -78,7 +78,7 @@ int Sum(int a, int b);
 
 }  // namespace $(fuba)
 """
-    lib_cc = """#include "benchmark/benchmark.h"
+    lib_cc = """#include "$(fuba)/$(fuba).h"
 
 namespace $(fuba) {
     
