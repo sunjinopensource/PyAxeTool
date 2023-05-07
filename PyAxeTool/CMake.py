@@ -36,7 +36,7 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 """
     test_CMakeLists_content = """SetupGTest()
 
-AddTest(test_$(fuba) $(fuba))
+AddTest($(fuba)_test $(fuba))
 """
     cmake_CMakeUtil = """#================================================================
 # 安装gtest 
@@ -89,14 +89,14 @@ int Sum(int a, int b) {
 }  // namespace $(fuba)
 """
 
-    test_lib_cc = """#include "$(fuba)/$(fuba).h"
+    lib_test_cc = """#include "$(fuba)/$(fuba).h"
 
 #include <iostream>
 
 #include "gtest/gtest.h"
 
-TEST(test_$(fuba), Sum) {
-  EXPECT_TRUE(foo::Sum(1, 2) == 3);
+TEST($(fuba)_test, Sum) {
+  EXPECT_TRUE($(fuba)::Sum(1, 2) == 3);
 }
 """
     if args.libname is None:
@@ -121,7 +121,7 @@ TEST(test_$(fuba), Sum) {
         # 源码相关
         AFile.write(os.path.join('include', fu_ba_map['fuba'], fu_ba_map['fuba']+'.h'), AStr.format(lib_h, '$(', ')', **fu_ba_map), 'utf8')
         AFile.write(os.path.join('src', fu_ba_map['fuba']+'.cc'), AStr.format(lib_cc, '$(', ')', **fu_ba_map), 'utf8')
-        AFile.write(os.path.join('test', 'test_'+fu_ba_map['fuba']+'.cc'), AStr.format(test_lib_cc, '$(', ')', **fu_ba_map), 'utf8')
+        AFile.write(os.path.join('test', fu_ba_map['fuba']+'_test.cc'), AStr.format(lib_test_cc, '$(', ')', **fu_ba_map), 'utf8')
     
 def handle_sub_cmd_archetype_generate(args):
     funcs = {
